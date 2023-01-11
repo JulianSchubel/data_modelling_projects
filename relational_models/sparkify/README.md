@@ -13,4 +13,4 @@ Data has been organized in a star schema with the 'songplays' table as fact tabl
 
 ### Data Model Justification
 
-Given the requirement for optimization for a specific class of queries, some level of denormalization is expected. Queries are simple, there are no requirements for one-to-many relationships, the degree of conceptual data entities is low, and there is no need for normalized dimension tables. It follows that a star schema is then an effective and sufficient choice.
+Given the requirement for optimization for a specific class of queries, some level of denormalization is expected. Queries are simple, the data can be modelled efficiently for the purpose using only one-to-one relationships, and there is no need for normalized dimension tables. It follows that a star schema is a sufficient choice.
