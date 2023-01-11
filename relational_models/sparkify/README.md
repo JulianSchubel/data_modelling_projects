@@ -30,9 +30,9 @@ setup.sh: installs the required python libraries. Pulls and runs the latest post
 1. Run **setup.sh** to install the python dependencies, fetch the postgres docker image, and start the container.  
 2. Run **create_tables.py** to remove any tables that may conflict and create the required tables. This can be used to reset the DB.  
 3. Run **etl.py** to load, parse, and insert data into the following tables:  
-    - 'songplays'  
-	- 'songs'  
-	- 'artists'  
-	- 'users'  
-	- 'time'  
+    - songplays  
+	- songs  
+	- artists  
+	- users  
+	- time  
 
