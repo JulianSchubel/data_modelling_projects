@@ -17,8 +17,8 @@ Given the requirement for optimization for a specific class of queries, some lev
 
 ## Directory Contents
 
-data: contains the log\_data (user activity logs; directory partitioned by date) and song\_data	(song metadata; directory partitioned by first three letters of song track ID) directories.
-create\_tables.py: drops conflicting tables if they exist and creates the required tables.
-etl.py: loads, parses and inserts data from the data/ directory into the relevant tables.
+data: contains the log\_data (user activity logs; directory partitioned by date) and song\_data	(song metadata; directory partitioned by first three letters of song track ID) directories.  
+create\_tables.py: drops conflicting tables if they exist and creates the required tables.  
+etl.py: loads, parses and inserts data from the data/ directory into the relevant tables.  
 
 
