@@ -18,8 +18,8 @@ Given the requirement for optimization for a specific class of queries, some lev
 ## Directory Contents
 
 data/
->/log\_data	(user activity logs; directory partitioned by date)
->/song\_data	(song metadata; directory partitioned by first three letters of song track ID)
+>/log\_data	(user activity logs; directory partitioned by date).
+>/song\_data	(song metadata; directory partitioned by first three letters of song track ID).
 
 create\_tables.py (drops if they exist and creates the necessary tables)
 
