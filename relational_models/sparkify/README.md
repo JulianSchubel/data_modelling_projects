@@ -24,3 +24,15 @@ data/: contains source data for tables
 create\_tables.py: drops conflicting tables if they exist and creates the required tables.  
 etl.py: loads, parses and inserts data from the data/ directory into the relevant tables.  
 setup.sh: installs the required python libraries. Pulls and runs the latest postgres docker image.  
+
+## Quickstart
+
+1. Run **setup.sh** to install the python dependencies, fetch the postgres docker image, and start the container.  
+2. Run **create_tables.py** to remove any tables that may conflict and create the required tables. This can be used to reset the DB.  
+3. Run **etl.py** to load, parse, and insert data into the following tables:  
+    - 'songplays'  
+	- 'songs'  
+	- 'artists'  
+	- 'users'  
+	- 'time'  
+
