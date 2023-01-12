@@ -1,5 +1,5 @@
 
-# Sparkify database (DE course project)
+# Sparkify database (Udacity Data Engineering Nanodegree Project 1)
 
 ## Scenario
 
