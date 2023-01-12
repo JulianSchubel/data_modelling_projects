@@ -15,6 +15,12 @@ Data has been organized in a star schema with the 'songplays' table as fact tabl
 
 Given the requirement for optimization for a specific class of queries, some level of denormalization is expected. Queries are simple, the data can be modelled efficiently for the purpose using only one-to-one relationships, and there is no need for normalized dimension tables. It follows that a star schema is a sufficient choice.
 
+### Data Quality Constraints:
+1. All fields not relating to personal information or location are considered mandatory.  
+2. All records are complete as per 1. Records violating data quality constraints will be dropped.  
+3. All records are unique as per 1. Duplicate records will be ignored.  
+4. All records from which multiple tables are populated are treated atomically to maintain alignment between those tables.
+
 ## Directory Contents
 
 data/: contains source data for tables  

@@ -7,32 +7,32 @@ artist_table_drop = "DROP TABLE IF EXISTS artists;"
 time_table_drop = "DROP TABLE IF EXISTS time;"
 
 # CREATE TABLES
-
 # Fact table
-# Records in log data associated with song plays i.e. records with page NextSong
 songplay_table_create = ("""
-    CREATE TABLE IF NOT EXISTS songplays (songplay_id SERIAL, start_time TIMESTAMP, user_id INT, level VARCHAR, song_id VARCHAR, artist_id VARCHAR, session_id INT, location VARCHAR, user_agent VARCHAR, PRIMARY KEY (songplay_id));
+    CREATE TABLE IF NOT EXISTS songplays (songplay_id SERIAL NOT NULL, start_time TIMESTAMP, user_id INT, level VARCHAR, song_id VARCHAR, artist_id VARCHAR, session_id INT, location VARCHAR, user_agent VARCHAR, PRIMARY KEY (songplay_id));
 """)
 
 # Dimension tables
+# All data excluding personal (with the exception of artists) and location data is considered mandatory as the minimum data quality requirement for dimension tables.
+
 # users in the app
 user_table_create = ("""
-    CREATE TABLE IF NOT EXISTS users (user_id INT, first_name VARCHAR, last_name VARCHAR, gender CHAR(1), level VARCHAR, PRIMARY KEY (user_id));
+    CREATE TABLE IF NOT EXISTS users (user_id INT NOT NULL, first_name VARCHAR, last_name VARCHAR, gender CHAR(1), level VARCHAR NOT NULL, PRIMARY KEY (user_id));
 """)
 
 # songs in music database
 song_table_create = ("""
-    CREATE TABLE IF NOT EXISTS songs (song_id VARCHAR NOT NULL, title VARCHAR NOT NULL, artist_id VARCHAR, year INT, duration NUMERIC, PRIMARY KEY (song_id));
+    CREATE TABLE IF NOT EXISTS songs (song_id VARCHAR NOT NULL, title VARCHAR NOT NULL, artist_id VARCHAR NOT NULL, year INT, duration NUMERIC, PRIMARY KEY (song_id));
 """)
 
 # artists in music database
 artist_table_create = ("""
-    CREATE TABLE IF NOT EXISTS artists (artist_id VARCHAR, name VARCHAR, location VARCHAR, latitude NUMERIC, longitude NUMERIC, PRIMARY KEY (artist_id));
+    CREATE TABLE IF NOT EXISTS artists (artist_id VARCHAR NOT NULL, name VARCHAR, location VARCHAR, latitude DOUBLE PRECISION, longitude DOUBLE PRECISION, PRIMARY KEY (artist_id));
 """)
 
 # timestamps of records in songplays broken down into specific units
 time_table_create = ("""
-    CREATE TABLE IF NOT EXISTS time (start_time TIMESTAMP, hour INT, day INT, week INT, month INT, year INT, weekday INT, PRIMARY KEY (start_time));
+    CREATE TABLE IF NOT EXISTS time (start_time TIMESTAMP NOT NULL, hour INT, day INT, week INT, month INT, year INT, weekday INT, PRIMARY KEY (start_time));
 """)
 
 # INSERT RECORDS
@@ -75,9 +75,10 @@ time_table_insert = ("""
 # FIND SONGS
 
 song_select = ("""
-    SELECT s.song_id , a.artist_id
+    SELECT s.song_id, a.artist_id
     FROM artists a
-    JOIN songs s ON s.artist_id = a.artist_id;
+    JOIN songs s ON s.artist_id = a.artist_id
+    WHERE s.title LIKE %s AND a.name LIKE %s AND s.duration = %s;
 """)
 
 # QUERY LISTS
