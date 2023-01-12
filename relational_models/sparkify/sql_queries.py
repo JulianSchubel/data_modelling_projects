@@ -9,7 +9,7 @@ time_table_drop = "DROP TABLE IF EXISTS time;"
 # CREATE TABLES
 # Fact table
 songplay_table_create = ("""
-    CREATE TABLE IF NOT EXISTS songplays (songplay_id SERIAL NOT NULL, start_time TIMESTAMP, user_id INT, level VARCHAR, song_id VARCHAR, artist_id VARCHAR, session_id INT, location VARCHAR, user_agent VARCHAR, PRIMARY KEY (songplay_id));
+    CREATE TABLE IF NOT EXISTS songplays (songplay_id SERIAL NOT NULL, start_time TIMESTAMP NOT NULL, user_id INT NOT NULL, level VARCHAR NOT NULL, song_id VARCHAR, artist_id VARCHAR, session_id INT, location VARCHAR, user_agent VARCHAR, PRIMARY KEY (songplay_id), UNIQUE (start_time, user_id, level, user_agent));
 """)
 
 # Dimension tables
@@ -22,12 +22,12 @@ user_table_create = ("""
 
 # songs in music database
 song_table_create = ("""
-    CREATE TABLE IF NOT EXISTS songs (song_id VARCHAR NOT NULL, title VARCHAR NOT NULL, artist_id VARCHAR NOT NULL, year INT, duration NUMERIC, PRIMARY KEY (song_id));
+    CREATE TABLE IF NOT EXISTS songs (song_id VARCHAR NOT NULL, title VARCHAR NOT NULL, artist_id VARCHAR NOT NULL, year INT NOT NULL, duration NUMERIC NOT NULL, PRIMARY KEY (song_id));
 """)
 
 # artists in music database
 artist_table_create = ("""
-    CREATE TABLE IF NOT EXISTS artists (artist_id VARCHAR NOT NULL, name VARCHAR, location VARCHAR, latitude DOUBLE PRECISION, longitude DOUBLE PRECISION, PRIMARY KEY (artist_id));
+    CREATE TABLE IF NOT EXISTS artists (artist_id VARCHAR NOT NULL, name VARCHAR NOT NULL, location VARCHAR, latitude DOUBLE PRECISION, longitude DOUBLE PRECISION, PRIMARY KEY (artist_id));
 """)
 
 # timestamps of records in songplays broken down into specific units
@@ -40,6 +40,8 @@ time_table_create = ("""
 songplay_table_insert = ("""
     INSERT INTO songplays (start_time, user_id, level, song_id, artist_id, session_id, location, user_agent)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    ON CONFLICT (start_time, user_id, level, user_agent)
+    DO NOTHING
 """)
 
 # Dimension tables

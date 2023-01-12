@@ -27,9 +27,10 @@ data/: contains source data for tables
 > log\_data: user activity logs; directory partitioned by date.  
 > song\_data: song metadata; directory partitioned by first three letters of song track ID.  
 
-create\_tables.py: drops conflicting tables if they exist and creates the required tables.  
-etl.py: loads, parses and inserts data from the data/ directory into the relevant tables.  
-setup.sh: installs the required python libraries. Pulls and runs the latest postgres docker image.  
+**create\_tables.py**: drops conflicting tables if they exist and creates the required tables.  
+**etl.py**: loads, parses and inserts data from the data/ directory into the relevant tables.  
+**setup.sh**: installs the required python libraries. Pulls and runs the latest postgres docker image.  
+**sql_queries.py**: contains all SQL queries to be run in **create_tables.py** and **etl.py**  
 
 ## Quickstart
 
