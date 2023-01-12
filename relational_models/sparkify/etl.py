@@ -14,14 +14,14 @@ def process_song_file(cur, filepath):
             3. All records are unique as per 1. Duplicate records will be ignored.
             4. All log_data records are treated atomically in order to maintain alignment between the 'songs' and 'artists' tables.
     """
-    # open song file
+    # open song data file
     df = pd.read_json(filepath, lines=True)
 
     # check the data quality
     data_quality_ok = df[["song_id", "title", "artist_id", "year", "duration", "artist_name"]].isna().any().any()
 
     if not data_quality_ok:
-        # Retrieve values for song_id, title, artits_id, year, and duration columns
+        # insert song record
         song_data = df[["song_id", "title", "artist_id", "year", "duration"]].values.tolist()[0]
         cur.execute(song_table_insert, song_data)
         # insert artist record
@@ -32,7 +32,8 @@ def process_song_file(cur, filepath):
 def process_log_file(cur, filepath):
     """
         - Process multi-record log data (data/log_data) .json files
-        - Parses records for necessary data and populates the 'time' and 'users' tables
+        - Pre-condition: 'songs' and 'artists' tables exist and have been populated (process_song_file() has been run)
+        - Parses records for necessary data and populates the 'time','users' and 'songplays' tables
         - Retrieves song_id and artist_id from 'songs' and 'artists' tables respectively; combines with log data to populate the 'songplays' table
         - Data quality sepcifications for log data:
             1. All fields not relating to personal information (excluding artists) or location are considered mandatory: ts, userId, level, sessionId, userAgent
@@ -70,7 +71,7 @@ def process_log_file(cur, filepath):
 
     # insert songplay records
     for index, row in df.iterrows():
-        # get songid and artistid from song and artist tables
+        # get song_id and artist_id from song and artist tables
         cur.execute(song_select, (row.song, row.artist, row.length))
         results = cur.fetchone()
         if results:
@@ -84,8 +85,8 @@ def process_log_file(cur, filepath):
 
 def process_data(cur, conn, filepath, func):
     """
-        - Retrieves a list of absolute paths to all JSON files under 'filepath'
-        - Processes all identified files using 'func'
+        - Produces a list of absolute paths to all JSON files under 'filepath'
+        - Processes all files specified by the list of absolute paths using 'func'
     """
     # get all files matching extension from directory
     all_files = []
