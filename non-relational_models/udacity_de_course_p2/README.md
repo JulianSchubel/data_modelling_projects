@@ -1,1 +1,1 @@
-# Udacity data engineerign course 2
+# Udacity Data Engineering Course: project 2
